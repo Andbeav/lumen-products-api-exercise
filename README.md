@@ -67,7 +67,36 @@ Start up the `app` image.
 
 ```
 $ docker-compose up app
+...
+ERROR 2002 (HY000): Can't connect to server on 'db' (111)
+ERROR 2002 (HY000): Can't connect to server on 'db' (111)
+
+   INFO  Dropped all tables successfully.
+
+
+  Dropping all tables ................................................................................................................... 370ms DONE
+
+   INFO  Preparing database.
+
+  Creating migration table .............................................................................................................. 268ms DONE
+
+   INFO  Running migrations.
+
+  2023_01_19_141213_create_attributes_table .............................................................................................. 89ms DONE
+  2023_01_19_141213_create_product_table ................................................................................................ 209ms DONE
+
+
+   INFO  Seeding database.
+
+  Database\Seeders\ProductSeeder ........................................................................................................... RUNNING
+  Database\Seeders\ProductSeeder .................................................................................................... 197.05 ms DONE
+
+  Database\Seeders\AttributesSeeder ........................................................................................................ RUNNING
+  Database\Seeders\AttributesSeeder .................................................................................................. 30.60 ms DONE
+
+[Tue Jan 24 15:44:31 2023] PHP 8.1.14 Development Server (http://0.0.0.0:8000) started
 ```
+You should now be able to view the initially seeded product at `http://localhost:8000/products`.
 
 To cleanly shutdown, run `docker-compose down` regardless of whether it was shut down with `^C`.
 
