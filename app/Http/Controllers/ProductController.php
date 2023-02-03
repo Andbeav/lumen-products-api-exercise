@@ -67,13 +67,16 @@ class ProductController extends Controller
             try {
                 Product::create(['sku' => $sku]);
 
+                // Collect all attributes for batch insert
+                $attributes = [];
                 foreach ($product['attributes'] as $name => $value) {
-                    Attributes::create([
+                    $attributes[]= [
                         'sku' => $sku,
                         'name' => $name,
                         'value' => $value
-                    ]);
+                    ];
                 }
+                Attributes::insert($attributes);
 
                 $response['created'][] = $sku;
             } catch (\PDOException $e) {

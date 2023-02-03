@@ -111,4 +111,31 @@ class ProductControllerTest extends TestCase
 
         $this->assertMatchesRegularExpression("/Duplicate entry 'xyz' for key 'product.product_sku_unique'/", $response['failed']['xyz']);
     }
+
+    /**
+     * Test that ProductController@insert can
+     * insert a large amounts of records.
+     */
+    public function test_that_insert_inserts_multiple_records()
+    {
+        app('db')->delete("DELETE FROM product");
+        $num_products = 1000;
+        $products = [];
+        for ($i=0; $i < $num_products; $i++) {
+            $products[]= [
+                "sku" => uniqid(),
+                "attributes" => [
+                    "color" => "blue",
+                    "shape" => "square",
+                    "amount" => "300"
+                ]
+            ];
+        }
+
+        $this->json('POST', '/products', $products);
+
+        $product_results = app('db')->select("SELECT COUNT(*) AS count FROM product");
+
+        $this->assertEquals($num_products, $product_results[0]->count);
+    }
 }
