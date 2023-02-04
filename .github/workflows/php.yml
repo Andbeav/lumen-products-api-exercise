@@ -13,6 +13,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        # https://hub.docker.com/_/mysql
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_PASSWORD: secret
+          MYSQL_USER: default
+          MYSQL_DATABASE: default
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: actions/checkout@v3
@@ -36,4 +49,13 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: vendor/bin/phpunit
+      env:
+        APP_ENV: local
+        APP_DEBUG: true
+        DB_CONNECTION: mysql
+        DB_HOST: db
+        DB_PORT: 3306
+        DB_DATABASE: default
+        DB_USERNAME: default
+        DB_PASSWORD: secret
+      run: bin/test.sh
