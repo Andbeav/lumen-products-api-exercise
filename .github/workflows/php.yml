@@ -58,4 +58,4 @@ jobs:
         DB_DATABASE: default
         DB_USERNAME: default
         DB_PASSWORD: secret
-      run: bin/test.sh
+      run: composer run-script run-tests
