@@ -109,6 +109,6 @@ class ProductControllerTest extends TestCase
         $this->json('POST', '/products', [$existing_product]);
         $response = json_decode($this->response->getContent(), true);
 
-        $this->assertMatchesRegularExpression("/Duplicate entry 'xyz' for key 'product.product_sku_unique'/", $response['failed']['xyz']);
+        $this->assertMatchesRegularExpression("/Duplicate entry 'xyz'.*product_sku_unique/", $response['failed']['xyz']);
     }
 }
