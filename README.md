@@ -1,5 +1,7 @@
 # Lumen Products API exercise
 
+![ci](https://github.com/Andbeav/lumen-products-api-exercise/actions/workflows/php.yml/badge.svg?branch=master)
+
 A simple implementation of Lumen as a 'products' API.
 
 ## The Brief
