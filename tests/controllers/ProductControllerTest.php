@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\Controllers;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class ProductControllerTest extends TestCase
+class ProductControllerTest extends \Tests\TestCase
 {
     use DatabaseTransactions;
 
@@ -110,5 +110,32 @@ class ProductControllerTest extends TestCase
         $response = json_decode($this->response->getContent(), true);
 
         $this->assertMatchesRegularExpression("/Duplicate entry 'xyz'.*product_sku_unique/", $response['failed']['xyz']);
+    }
+
+    /**
+     * Test that ProductController@insert can
+     * insert a large amounts of records.
+     */
+    public function test_that_insert_inserts_multiple_records()
+    {
+        app('db')->delete("DELETE FROM product");
+        $num_products = 1000;
+        $products = [];
+        for ($i=0; $i < $num_products; $i++) {
+            $products[]= [
+                "sku" => uniqid(),
+                "attributes" => [
+                    "color" => "blue",
+                    "shape" => "square",
+                    "amount" => "300"
+                ]
+            ];
+        }
+
+        $this->json('POST', '/products', $products);
+
+        $product_results = app('db')->select("SELECT COUNT(*) AS count FROM product");
+
+        $this->assertEquals($num_products, $product_results[0]->count);
     }
 }
