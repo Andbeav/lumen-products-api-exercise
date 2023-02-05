@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests;
+namespace Tests\Controllers;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class ProductControllerTest extends TestCase
+class ProductControllerTest extends \Tests\TestCase
 {
     use DatabaseTransactions;
 

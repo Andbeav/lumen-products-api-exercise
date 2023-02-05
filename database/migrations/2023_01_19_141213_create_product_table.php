@@ -21,7 +21,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('product', function (Blueprint $table) {
-            // $table->id();
             $table->string('sku');
             $table->timestamps();
 
